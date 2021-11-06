@@ -1,0 +1,15 @@
+.item svg path{
+    stroke: #0005;
+}
+.item{
+    cursor: pointer;
+}
+.item:hover{
+    background-color: #eee; 
+}
+.container-item.active *{
+    background-color: var(--primary);
+}
+.container-item.active svg path {
+    stroke: #fff;
+}

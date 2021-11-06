@@ -7,6 +7,24 @@ body {
     color: #212529;
     text-align: left;
     background-color: #fff;
+    --indigo: #6610f2;
+    --purple: #6f42c1;
+    --pink: #e83e8c;
+    --orange: #fd7e14;
+    --yellow: #ffc107;
+    --teal: #20c997;
+    --cyan: #17a2b8;
+    --white: #fff;
+    --gray: #6c757d;
+    --gray-dark: #343a40;
+    --primary: #007bff;
+    --secondary: #6c757d;
+    --success: #28a745;
+    --info: #17a2b8;
+    --warning: #ffc107;
+    --danger: #dc3545;
+    --light: #f8f9fa;
+    --dark: #343a40;
 }
 @media (min-width: 1200px) {
     .fs-1 {
@@ -133,4 +151,19 @@ body {
 }
 .w-100 {
     width: 100% !important;
+}
+.text-right {
+    text-align: right !important;
+}
+.bg-primary {
+    background-color: #007bff !important;
+}
+.bg-white {
+    background-color: #fff !important;
+}
+.bg-dark {
+    background-color: #343a40 !important;
+}
+.rounded {
+    border-radius: 0.5rem !important;
 }
