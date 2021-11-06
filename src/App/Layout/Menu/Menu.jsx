@@ -18,9 +18,8 @@ export default function Menu() {
         toast.error(err + "");
       });
   }, []);
-  return (
-    load?null:
-    <div className="menu order-1 order-sm-0 mt-0 mt-sm-4">
+  return load ? null : (
+    <div className="menu order-1 order-sm-0 mt-0 mt-sm-4 d-flex flex-row flex-sm-column justify-content-around justify-content-sm-start">
       {menu.map((e, i) => (
         <Item key={i} name={e.name} path={e.path} />
       ))}

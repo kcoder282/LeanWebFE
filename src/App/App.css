@@ -165,5 +165,8 @@ body {
     background-color: #343a40 !important;
 }
 .rounded {
-    border-radius: 0.5rem !important;
+    border-radius: 1rem !important;
+}
+a{
+    text-decoration: none;
 }

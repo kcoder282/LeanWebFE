@@ -1,20 +1,23 @@
-import {GrHomeRounded} from 'react-icons/gr';
 import { NavLink } from 'react-router-dom';
 import './Item.css';
 
 const Item = ({name, path}) => {
-    const Icon = ({name})=>
+    const icon = (name)=>
     {
-        if (name === "Home") return <GrHomeRounded size={"1.5rem"} />;
-        if (name === "Courses") return <GrHomeRounded size={"1.5rem"} />;
-        if (name === "Topics") return <GrHomeRounded size={"1.5rem"} />;
-        if (name === "Blogs") return <GrHomeRounded size={"1.5rem"} />;
-        if (name === "files") return <GrHomeRounded size={"1.5rem"} />;
+        if (name === "Home") return 'home';
+        if (name === "Courses") return "e-learning";
+        if (name === "Topics") return "interrogation";
+        if (name === "Blogs") return "feather";
+        if (name === "files") return "file-check";
+        return "cross-circle";
     }
     return (
       <NavLink to={path} className="container-item">
         <div className="item p-3 m-2 rounded d-flex justify-content-center align-items-center ">
-          <Icon name={name} />
+          <i className={"fi fi-rr-" + icon(name)} />
+          <span>
+            {}
+          </span>
         </div>
       </NavLink>
     );
