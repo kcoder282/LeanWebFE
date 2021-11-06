@@ -1,6 +1,10 @@
 .loader{
     display: flex;
     align-items: center;
+    
+}
+.load-container{
+    min-height: 70vh;
 }
 .loader *{
     width: .5rem;

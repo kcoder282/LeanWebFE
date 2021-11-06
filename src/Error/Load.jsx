@@ -2,7 +2,7 @@ import './Load.css';
 
 export default function Load() {
     return (
-      <div className="w-100 h-100 d-flex justify-content-center align-items-center">
+      <div className="load-container w-100 d-flex justify-content-center align-items-center">
         <div className="loader">
             <div style={{'--delay':'0s'}}/>
             <div style={{'--delay':'.2s'}}/>
