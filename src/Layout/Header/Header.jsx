@@ -1,5 +1,5 @@
 import React from 'react';
-import './Layout.css'
+import "./Header.css";
 import Login from './component/Login';
 import Logo from './component/Logo';
 import Search from './component/Search';

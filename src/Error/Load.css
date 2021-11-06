@@ -1,0 +1,29 @@
+.loader{
+    display: flex;
+    align-items: center;
+}
+.loader *{
+    width: .5rem;
+    margin: .2rem;
+    border-radius: .5rem;
+    animation: loadItem 2s var(--delay) linear infinite;
+}
+@keyframes loadItem {
+   0%,10%,30%,100%,80%{
+       height: .5rem;
+       opacity: .5;
+       background-color: var(--primary);
+   }
+
+   90%{
+       opacity: 1;
+       background-color: var(--indigo);
+   }
+
+   20%{
+       height: 3.5rem;
+       opacity: 1;
+       opacity: 1;
+   }
+
+}

@@ -13,10 +13,10 @@ const Item = ({name, path}) => {
     }
     return (
       <NavLink to={path} className="container-item">
-        <div className="item p-3 m-2 rounded d-flex justify-content-center align-items-center ">
+        <div className="item p-3 m-2 rounded d-flex justify-content-center align-items-center position-relative">
           <i className={"fi fi-rr-" + icon(name)} />
-          <span>
-            {}
+          <span className="position-absolute px-3 py-2 m-2 rounded d-none d-sm-block">
+            {name}
           </span>
         </div>
       </NavLink>

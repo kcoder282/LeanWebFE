@@ -1,5 +1,4 @@
 import React from 'react'
-import { IoCloseCircleSharp } from "react-icons/io5";
 
 export default function Search() {
     return (
@@ -7,12 +6,12 @@ export default function Search() {
         <div className="search position-relative">
           <input
             type="text"
-            className="form-control rounded-pill px-4"
+            className="form-control rounded-pill pl-3 pr-5"
             placeholder="Bạn muốn học điều gì?"
           />
-          <IoCloseCircleSharp
+          <i
             size="1.5rem "
-            className="text-primary position-absolute btn-close"
+            className="text-primary position-absolute btn-close fi fi-rr-cross-circle d-block"
           />
         </div>
       </div>
