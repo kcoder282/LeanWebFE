@@ -1,0 +1,8 @@
+.lessonsItem{
+    background-color: rgb(238, 238, 238); 
+    cursor: pointer;
+    border-radius: .5rem;
+}
+.lessonsItem:hover{
+    background-color: rgb(250, 249, 249);
+}

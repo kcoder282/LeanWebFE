@@ -5,6 +5,7 @@ import App from './App/App';
 import { ToastContainer } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import './Icon/css/uicons-regular-rounded.css';
+import './Animation.css';
 
 ReactDOM.render(
   <React.StrictMode>

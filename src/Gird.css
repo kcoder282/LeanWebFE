@@ -64,7 +64,7 @@ html {
   position: fixed;
   left: 0;
   top: 100%;
-  transform: translateY(-100%);
+  transform: translateY(calc(-100% + 5rem));
   width: 100%;
   z-index: 10;
   background-color: #fff;

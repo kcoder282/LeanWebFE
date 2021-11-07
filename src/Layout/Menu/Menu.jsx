@@ -24,7 +24,7 @@ export default function Menu() {
   ];
 
   return (
-    <div className="menu mt-0 mt-sm-4 d-flex flex-row flex-sm-column justify-content-around justify-content-sm-start" >
+    <div className="menu mt-0 mt-sm-4 d-flex flex-row flex-sm-column justify-content-around justify-content-sm-start" style={{paddingBottom: "5rem"}}>
       {menu.map((e, i) => (
         <Item key={i} name={e.name} path={e.path} />
       ))}

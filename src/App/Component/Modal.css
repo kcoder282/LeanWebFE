@@ -5,4 +5,27 @@
     width: 100vw;
     height: 100vh;
     background-color: #5555;
+    z-index: 1024;
+}
+@keyframes load_animtion {
+    0% {
+        transform: rotate(0);
+    }
+
+    100% {
+        transform: rotate(360deg);
+    }
+}
+
+.load {
+    display: inline-block;
+    animation: load_animtion 1s linear infinite
+}
+.load{
+    height: 1.2em;
+}
+.Model-container{
+    max-height: 90%;
+    max-width: 90%;
+    overflow: auto;
 }

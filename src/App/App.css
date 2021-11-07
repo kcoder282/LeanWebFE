@@ -112,7 +112,14 @@ body {
 .font-weight-bold {
     font-weight: 700 !important;
 }
+textarea {
+    resize: none;
+    overflow: hidden;
+    min-height: 5rem !important;
+}
+
 .btn {
+    cursor: pointer;
     display: inline-block;
     font-weight: 400;
     color: #212529;
@@ -130,6 +137,11 @@ body {
     border-radius: 0.25rem;
     transition: color 0.15s ease-in-out, background-color 0.15s ease-in-out, border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
 }
+.btn.disable {
+    opacity: .5;
+    cursor: no-drop;
+    pointer-events: visible;
+}
 .btn-admin {
     position: fixed;
     right: 1rem;
@@ -138,7 +150,17 @@ body {
     color: var(--light);
     cursor: pointer;
 }
+.btn-danger {
+    color: #fff;
+    background-color: #dc3545;
+    border-color: #dc3545;
+}
 
+.btn-danger:hover {
+    color: #fff;
+    background-color: #c82333;
+    border-color: #bd2130;
+}
 .btn-primary {
     color: #fff;
     background-color: #007bff;
@@ -202,4 +224,38 @@ a{
 ::-webkit-scrollbar-thumb:hover {
     background: #555;
     width: 10px;
+}
+.checkbox{
+    margin-top: .25rem;
+    margin-bottom: -0.25rem;
+    display: inline-block;
+    width: 2.5rem;
+    border-radius: .75rem;
+    height: 1.5rem;
+    border: 1px solid #909ca8;
+    position: relative;
+    top: 0;
+    left: 0;
+    cursor: pointer;
+}
+.checkbox::after{
+    content: '';
+    width: 1.5rem;
+    height: 1.5rem;
+    display: block;
+    background-color: #909ca8;
+    border: 1px solid #0000;
+    border-radius: 50%;
+    position: absolute;
+    top: -1px;
+    left: calc(1rem - 1px);
+    animation: fadeInLeft .2s linear;
+}
+.checkbox.checked::after{
+    left: -1px;
+    animation: fadeInRight .2s linear;
+    background-color: #0062cc;
+}
+.checkbox.checked{
+    border-color: #0062cc;
 }
