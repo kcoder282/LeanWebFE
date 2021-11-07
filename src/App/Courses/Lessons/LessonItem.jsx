@@ -1,11 +1,16 @@
-import React from 'react'
-import { useState } from 'react';
+import React from "react";
+import { useState } from "react";
 
-export default function LessonItem() {
-    const [edit, setEdit] = useState(false);
-    return (
-      <div className="col-12 pb-2">
-        <div className="pl-3 p-2 lessonsItem">Bài 1: Dữ liệu xong</div>
+export default function LessonItem({ name,index,check }) {
+  const [edit, setEdit] = useState(false);
+  return (
+    <div className="col-12 mb-2">
+      <div className="pl-3 p-2 lessonsItem d-flex justify-content-between">
+        <span>
+          Bài {index}: {name}
+        </span>
+        {check?<i className="fi fi-rr-check" style={{color:"var(--success)"}}/>:''}
       </div>
-    );
+    </div>
+  );
 }

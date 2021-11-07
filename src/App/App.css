@@ -189,6 +189,9 @@ textarea {
 .text-right {
     text-align: right !important;
 }
+.text-white{
+    color: #fff!important
+}
 .bg-primary {
     background-color: #007bff !important;
 }

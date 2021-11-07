@@ -4,13 +4,13 @@ import "./Courses.css";
 import { useState } from "react";
 import { useEffect } from "react";
 import axios from "axios";
-import { host } from "./../../Static";
+import { host, key } from "./../../Static";
 import { toast } from "react-toastify";
 import Modal from "../Component/Modal";
 import Load from "./../../Error/Load";
 import { Link } from "react-router-dom";
 
-export default function Courses() {
+export default function Courses(user) {
   const [courses, setCourses] = useState([]);
   const [admin, setAdmin] = useState(false);
   const [courseEdit, setCourseEdit] = useState(false);
@@ -21,7 +21,7 @@ export default function Courses() {
 
   useEffect(() => {
     axios
-      .get(host + "courses/")
+      .get(host + "courses?key="+key())
       .then((result) => {
         setCourses(result.data);
         setLoad(false);
