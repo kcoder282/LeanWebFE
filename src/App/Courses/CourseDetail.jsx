@@ -28,7 +28,7 @@ export default function CourseDetail() {
       <div className="row">
         <div className="col-12 col-sm-9 order-1">
           <div className="container-fluid">
-            <LessonDetail id={idLesson} />
+            <LessonDetail id={idLesson} admin={admin} />
           </div>
         </div>
         <div className="col-12 col-sm-3 order-2">

@@ -1,0 +1,33 @@
+.ql-container {
+    font-family: -apple-system,
+        BlinkMacSystemFont,
+        "Segoe UI",
+        Roboto,
+        "Helvetica Neue",
+        Arial,
+        "Noto Sans",
+        "Liberation Sans",
+        sans-serif,
+        "Apple Color Emoji",
+        "Segoe UI Emoji",
+        "Segoe UI Symbol",
+        "Noto Color Emoji";
+    font-size: 1rem;
+    line-height: 1.5;
+    font-weight: 400;
+}
+
+.ql-picker-item[data-value="small"]::before,
+.ql-editor .ql-size-small {
+    font-size: 0.75rem !important;
+}
+
+.ql-picker-item[data-value="large"]::before,
+.ql-editor .ql-size-large {
+    font-size: 1.25rem !important;
+}
+
+.ql-picker-item[data-value="huge"]::before,
+.ql-editor .ql-size-huge {
+    font-size: 1.75rem !important;
+}
