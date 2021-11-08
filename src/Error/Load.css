@@ -1,7 +1,7 @@
 .loader{
     display: flex;
     align-items: center;
-    
+    height: 4rem;
 }
 .load-container{
     min-height: 70vh;

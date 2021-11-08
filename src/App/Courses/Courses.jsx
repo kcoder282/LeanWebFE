@@ -37,7 +37,7 @@ export default function Courses(user) {
     courseEdit.key = courseEdit.keyWord;
     if (courseEdit.id === -1) {
       axios
-        .post(host + "courses/", courseEdit)
+        .post(host + "courses?key="+key(), courseEdit)
         .then((result) => {
           setCourses(result.data);
           toast.success("Thêm khóa học Thành công");
@@ -50,7 +50,7 @@ export default function Courses(user) {
         });
     } else {
       axios
-        .put(host + "courses/" + courseEdit.id, courseEdit)
+        .put(host + "courses?key=" + key() + courseEdit.id, courseEdit)
         .then((result) => {
           setCourses(result.data);
           toast.success("Lưu thay đổi thành công");
@@ -64,7 +64,7 @@ export default function Courses(user) {
   };
   const deleteData = () => {
     axios
-      .delete(host + "courses/" + courseEdit.id)
+      .delete(host + "courses?key=" + key() + courseEdit.id)
       .then((result) => {
         setCourses(result.data);
         toast.success("Xóa khóa học Thành công");

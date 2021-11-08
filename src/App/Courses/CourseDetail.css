@@ -6,21 +6,54 @@
 .lessonsItem:hover{
     opacity: .8;
 }
-.lessonsItem.check{
-
+.lessonsItem .edit{
+    flex: 1;
+    background-color: transparent;
+    border: none;
+    outline: none;
+    font-size: 1rem;
+    font-weight: 100;
+    padding: .25rem;
+    min-width: 0;
 }
-.form-control~i.btn-add {
-    cursor: pointer;
-    transition: opacity .3s linear;
-    top: 50%;
-    right: 0;
-    display: block;
-    width: 2rem;
-    height: 2rem;
-    border-radius: .5rem;
-    transform: translate(-60%,-75%);
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.edit.edit-add,
+.edit:focus {
+    background-color: #fff;
+    border-radius: .25rem;
+    color: var(--primary);
+    font-style: italic;
+}
+.edit.edit-add{
+    text-decoration: underline;
+}
+.pos{
     background-color: var(--primary);
+    color: white;
+    padding: 0 .5rem;
+    border-radius: .25rem;
+}
+.lessonsItem.select{
+    background: var(--primary);
+    color: var(--light) !important;
+}
+.lessonsItem.select input{
+    color: var(--light) !important;
+    pointer-events: none;
+}
+.btn-add{
+    position: absolute;
+    top: .35rem;
+    right: 1.35rem;
+    cursor: pointer;
+    background-color: var(--primary);
+    color: var(--light);
+    line-height: 1rem;
+    padding: .25rem;
+    border-radius: .25rem;
+}
+.detail {
+    outline: 2px solid var(--primary);
+}
+p:focus{
+    background-color: blue;
 }

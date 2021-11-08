@@ -25,23 +25,23 @@ function App() {
     // }).catch((err) => {
     //   toast.error(""+err);
     // });
-    setKey("c3c52c2322e0c5ae929bb00f0b8d744d",1800);
+    setKey("9d54732f05dc2208f31ebad11837592b", 3600);
     axios.get(host+"auth?key="+key())
     .then((result) => {
-      setUser(user);
+      setUser(result.data);
     }).catch((err) => {
        toast.error("" + err);
     });
   },[])
   return (
     <BrowserRouter>
-      <Header />
+      <Header user={user} />
       <div className="d-flex flex-column-reverse flex-sm-row">
         <Menu />
         <Content>
           <Route path="/" element={<Load />} />
-          <Route path="/Courses/" element={<Courses user={user} />} />
-          <Route path="/Courses/:id/:name" element={<CourseDetail user={user} />} />
+          <Route path="/Courses/" element={<Courses />} />
+          <Route path="/Courses/:id/:name" element={<CourseDetail />} />
           <Route path=":all" element={<Error404 />} />
         </Content>
       </div>
