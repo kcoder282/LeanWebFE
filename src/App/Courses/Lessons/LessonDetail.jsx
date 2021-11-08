@@ -28,7 +28,6 @@ export default function LessonDetail({id}) {
         <div className="row">
           <h2 className="text-uppercase text-center col">{lesson.name}</h2>
         </div>
-       
       </>
     );
 }
