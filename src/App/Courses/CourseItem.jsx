@@ -9,7 +9,7 @@ export default function CourseItem(data) {
     }, [data])
   return (
     <div className={"col mt-2 "+(course.status===0? course.admin?"fade":"d-none":"")}>
-      <Link to={course.admin ? "" : "/courses/" + course.id + "/" +(course.name+"").replaceAll(" ","-")}>
+      <Link to={course.admin ? "" : "/courses/" + (course.name+"").replaceAll(" ","-") + "/" + course.id}>
         <div
           className="course"
           onClick={

@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { host, key, setKey } from '../Static';
 import { toast } from 'react-toastify';
+import LessonDetail from './Courses/Lessons/LessonDetail';
 
 function App() {
   const [user, setUser] = useState({});
@@ -41,7 +42,8 @@ function App() {
         <Content>
           <Route path="/" element={<Load />} />
           <Route path="/Courses/" element={<Courses />} />
-          <Route path="/Courses/:id/:name" element={<CourseDetail />} />
+          <Route path="/Courses/:name:id/" element={<CourseDetail />} />
+          <Route path="/Courses/Lessons/:name/:idCourse/:id/" element={<LessonDetail />} />
           <Route path=":all" element={<Error404 />} />
         </Content>
       </div>
