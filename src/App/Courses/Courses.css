@@ -27,3 +27,8 @@
 .fade{
     opacity: .25 !important;
 }
+.nameCourse{
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
+}

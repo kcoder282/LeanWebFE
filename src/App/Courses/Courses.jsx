@@ -21,7 +21,7 @@ export default function Courses(user) {
 
   useEffect(() => {
     axios
-      .get(host + "courses?key="+key())
+      .get(host + "courses?key=" + key())
       .then((result) => {
         setCourses(result.data);
         setLoad(false);
@@ -37,7 +37,7 @@ export default function Courses(user) {
     courseEdit.key = courseEdit.keyWord;
     if (courseEdit.id === -1) {
       axios
-        .post(host + "courses?key="+key(), courseEdit)
+        .post(host + "courses?key=" + key(), courseEdit)
         .then((result) => {
           setCourses(result.data);
           toast.success("Thêm khóa học Thành công");
@@ -50,16 +50,16 @@ export default function Courses(user) {
         });
     } else {
       axios
-        .put(host + "courses?key=" + key() + courseEdit.id, courseEdit)
+        .put(host + "courses/" + courseEdit.id + "?key=" + key(), courseEdit)
         .then((result) => {
           setCourses(result.data);
           toast.success("Lưu thay đổi thành công");
-          setLoadExec(false);
           setCourseEdit(false);
         })
         .catch((err) => {
           toast.error(err + "");
-        });
+        })
+        .finally(() => setLoadExec(false));
     }
   };
   const deleteData = () => {
@@ -99,7 +99,22 @@ export default function Courses(user) {
               className="col rounded d-none d-sm-block"
               style={{ border: "1px solid #5555", width: "350px" }}
             >
-              <CourseItem {...courseEdit} />
+              <CourseItem
+                id={courseEdit.id}
+                name={courseEdit.name}
+                description={courseEdit.description}
+                keyWord={courseEdit.keyWord}
+                price={courseEdit.price}
+                status={courseEdit.status}
+                color={courseEdit.color}
+                lessons={courseEdit.lessons}
+                member={courseEdit.member}
+                evaluate={courseEdit.evaluate}
+                admin={admin}
+                setCourseModal={setCourseEdit}
+                setSave={setSave}
+                regis={courseEdit.regis}
+              />
               {courseEdit.id !== -1 ? (
                 <Link
                   to={`/courses/${courseEdit.id}/${(
@@ -296,7 +311,13 @@ export default function Courses(user) {
         <Modal>
           <div>Bạn Chắc chắn muốn xóa khóa học</div>
           <div className="d-flex justify-content-around">
-            <div className="btn btn-danger" onClick={()=>{deleteData();setConfirm(false)}}>
+            <div
+              className="btn btn-danger"
+              onClick={() => {
+                deleteData();
+                setConfirm(false);
+              }}
+            >
               Xóa
             </div>
             <div className="btn btn-primary" onClick={() => setConfirm(false)}>
@@ -305,6 +326,41 @@ export default function Courses(user) {
           </div>
         </Modal>
       ) : null}
+      {admin ? null : (
+        <div className="row">
+          <h2 className="col d-flex justify-content-between justify-content-sm-start">
+            My Courses
+          </h2>
+        </div>
+      )}
+      <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 align-items-md-stretch">
+        {courses.map((e, i) =>
+          !admin && e.regis ? (
+            <CourseItem
+              key={i}
+              id={e.id}
+              name={e.name}
+              description={e.description}
+              keyWord={e.key}
+              price={e.price}
+              status={e.status}
+              color={e.color}
+              lessons={e.lessons}
+              member={e.member}
+              evaluate={e.evaluate}
+              admin={admin}
+              setCourseModal={setCourseEdit}
+              setSave={setSave}
+              regis={e.regis}
+              myevaluate={e.myevaluate}
+              mEvaluate={e.mEvaluate}
+              setCourses={setCourses}
+            />
+          ) : (
+            ""
+          )
+        )}
+      </div>
       <div className="row">
         <h2 className="col d-flex justify-content-between justify-content-sm-start">
           {admin ? (
@@ -323,6 +379,7 @@ export default function Courses(user) {
                     lessons: 0,
                     member: 0,
                     evaluate: null,
+                    myevaluate: 0,
                   })
                 }
                 className="fi fi-rr-add ml-5 text-primary"
@@ -335,24 +392,31 @@ export default function Courses(user) {
         </h2>
       </div>
       <div className="row row-cols-1 row-cols-sm-2 row-cols-md-3 row-cols-lg-4 align-items-md-stretch">
-        {courses.map((e, i) => (
-          <CourseItem
-            key={i}
-            id={e.id}
-            name={e.name}
-            description={e.description}
-            keyWord={e.key}
-            price={e.price}
-            status={e.status}
-            color={e.color}
-            lessons={e.lessons}
-            member={e.member}
-            evaluate={e.evaluate}
-            admin={admin}
-            setCourseModal={setCourseEdit}
-            setSave={setSave}
-          />
-        ))}
+        {courses.map((e, i) =>
+          !e.regis || admin ? (
+            <CourseItem
+              key={i}
+              id={e.id}
+              name={e.name}
+              description={e.description}
+              keyWord={e.key}
+              price={e.price}
+              status={e.status}
+              color={e.color}
+              lessons={e.lessons}
+              member={e.member}
+              evaluate={e.evaluate}
+              admin={admin}
+              setCourseModal={setCourseEdit}
+              setSave={setSave}
+              regis={e.regis}
+              setCourses={setCourses}
+              mEvaluate={e.mEvaluate}
+            />
+          ) : (
+            ""
+          )
+        )}
       </div>
       <div
         onClick={() => setAdmin(!admin)}
