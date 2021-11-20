@@ -117,9 +117,9 @@ export default function Courses(user) {
               />
               {courseEdit.id !== -1 ? (
                 <Link
-                  to={`/courses/${courseEdit.id}/${(
+                  to={`/courses/${(
                     courseEdit.name + ""
-                  ).replaceAll(" ", "-")}`}
+                  ).replaceAll(" ", "-")}/${courseEdit.id}`}
                 >
                   <div className="btn btn-primary d-block">
                     <i className="fi fi-rr-interactive" /> Edit Lessons

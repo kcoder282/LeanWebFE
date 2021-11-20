@@ -64,7 +64,7 @@ export default function CourseItem(data) {
       >
         <Link
           to={
-            course.admin || !course.regis
+            course.admin
               ? ""
               : "/courses/" +
                 (course.name + "").replaceAll(" ", "-") +

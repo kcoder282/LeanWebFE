@@ -12,7 +12,7 @@
       "program": "k:\\workstation\\CongNgheWeb\\fe\\build\\Debug\\outDebug",
       "internalConsoleOptions": "openOnSessionStart",
       "MIMode": "gdb",
-      "miDebuggerPath": "D:\\Cpp\\MinGW64\\bin\\gdb.exe",
+      "miDebuggerPath": "D:/Cpp/MinGW64/bin/gdb.exe",
       "externalConsole": false,
       "setupCommands": [
         {

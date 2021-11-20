@@ -8,7 +8,8 @@ const Item = ({name, path}) => {
         if (name === "Courses") return "e-learning";
         if (name === "Topics") return "interrogation";
         if (name === "Blogs") return "feather";
-        if (name === "files") return "file-check";
+        if (name === "Files") return "file-check";
+        if (name === "Codes") return "bug";
         return "cross-circle";
     }
     return (

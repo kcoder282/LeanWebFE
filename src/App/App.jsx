@@ -25,7 +25,7 @@ function App() {
     // }).catch((err) => {
     //   toast.error(""+err);
     // });
-    setKey("e8a67ea8421b15248016d3486765d622", 3600);
+    setKey("8190d0ad90c5b1c434b62494021753c2", 3600);
     axios.get(host+"auth?key="+key())
     .then((result) => {
       setUser(result.data);

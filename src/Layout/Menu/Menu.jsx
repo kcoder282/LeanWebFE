@@ -18,9 +18,9 @@ export default function Menu() {
       path: "/blogs",
     },
     {
-      name: "files",
-      path: "/files",
-    },
+      name: "Codes",
+      path: "/codes",
+    }
   ];
 
   return (
