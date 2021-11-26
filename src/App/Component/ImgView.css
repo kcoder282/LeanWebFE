@@ -1,0 +1,85 @@
+.imgViewData{
+    position: relative;
+    margin-top: .5rem;
+    overflow: hidden;
+}
+.imgViewData .view{
+    position: relative;
+    transition: transform .7s cubic-bezier(0.19, 1, 0.22, 1);
+}
+
+.imgViewData .imgitem{
+    position: absolute;
+    width: 100%;
+    background-position: center center;
+    background-size: cover;
+    padding-top: 60%;
+    border-radius: .5rem;
+}
+.imgViewData .view>*:nth-child(1)
+{
+    position: relative;
+}
+.btn-img{
+    width: 100%;
+    bottom: 1rem;
+    left:0;
+    transition: transform .4s .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+    transform: translateY(300%);
+}
+.imgViewData:hover .btn-img{
+    transition-delay: 0ms;
+    transform: translateY(0);
+}
+.item-img{
+    width: 2rem;
+    height: .6rem;
+    border-radius: 1rem;
+    border: 2px solid rgb(239, 236, 245);
+    margin:0 .35rem ;
+    cursor: pointer;
+    box-shadow: .25rem .25rem .5rem #0005;
+}
+.item-img.active{
+    transition: background-color .2s linear;
+    background-color: #fff;
+    border: none;
+    opacity: 1;
+    border: 1px solid #fff;
+    box-sizing: content-box;
+}
+.btn-left,.btn-right{
+    cursor: pointer;
+    color: white;
+    text-shadow: .25rem .25rem .5rem #0005;
+    top: calc(50% - 1rem);
+    transition: transform .4s .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+.btn-right{
+    right: 1rem;
+    transform: translateX(300%);
+}
+.btn-left{
+    left:1rem;
+    transform: translateX(-300%);
+}
+.imgViewData:hover .btn-left,
+.imgViewData:hover .btn-right{
+    transition-delay: 0ms;
+    transform: translateX(0);
+   
+}
+.imgViewData .fi-sr-cross-circle{
+    position: absolute;
+    top: 1rem;
+    right: 1rem;
+    font-size: 1.5rem;
+    text-shadow: .25rem .25rem .5rem #000a;
+    color: #fff;
+    cursor: pointer;
+    transition: color .2s linear;
+}
+.imgViewData .fi-sr-cross-circle:hover{
+    color: rgb(255, 16, 16);
+    text-shadow: none;
+}

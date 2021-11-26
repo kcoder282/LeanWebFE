@@ -2,7 +2,7 @@ import "react-quill/dist/quill.bubble.css";
 import ReactQuill from "react-quill";
 import './index.css';
 import hljs from "highlight.js";
-import "highlight.js/styles/atom-one-dark.css";
+import "highlight.js/styles/atom-one-dark-reasonable.css";
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { host, key } from "./../../../Static";
@@ -16,7 +16,7 @@ hljs.configure({
   languages: ["javascript", "cpp", "python", "java"]
 });
 
-export default function Lesson({id, admin, nameCoures, setLessons, setSearch, setChange}) {
+export default function Lesson({cmt ,idCourse, id, admin, nameCoures, setLessons, setSearch, setChange, comment, setComment}) {
     const [lesson, setLesson] = useState({});
     const [likeNumber, setlikeNumber] = useState(0);
     const [name, setName] = useState("");
@@ -25,6 +25,9 @@ export default function Lesson({id, admin, nameCoures, setLessons, setSearch, se
     const [quill, setQuill] = useState(true);
     const [myLike, setmyLike] = useState(false);
     const [confirm, setConfirm] = useState(false);
+    const [regis, setRegis] = useState(false);
+
+    const check = useRef();
     let navigate = useNavigate();
 
     useEffect(() => {
@@ -36,13 +39,24 @@ export default function Lesson({id, admin, nameCoures, setLessons, setSearch, se
            setName(result.data.name);
            setVideo(result.data.video);
            content.current = result.data.content;
-           window.scrollTo(0,0);
            setmyLike(result.data.mylike);
            setlikeNumber(result.data.like);
+           setRegis(result.data.regis);
+           check.current = setTimeout(() => {
+              axios.get(host + "lessons/proccess/"+id+"?key="+key()+"&id_course="+idCourse)
+              .then((result) => {
+                setLessons(result.data);
+              }).catch((err) => {});
+           }, 120000)
        }).catch((err) => {
            toast.error(''+ err);
        });
-    }, [id])
+       return () => {
+         clearTimeout(check.current);
+       };
+    }, [id, idCourse, setLessons])
+
+   
 
     const createLesson = () =>{
         setName("");
@@ -172,17 +186,17 @@ export default function Lesson({id, admin, nameCoures, setLessons, setSearch, se
                 {likeNumber}
               </span>
             </div>
-            <div className="d-flex flex-row flex-md-column">
+            <div onClick={()=>setComment(!comment)} className="d-flex flex-row flex-md-column">
               <i
                 className="fi fi-rr-comment fs-3 mt-md-3 mr-1 mr-md-0"
                 style={{ color: "var(--dark)", cursor: "pointer" }}
               />
               <span style={{ color: "var(--dark)", textAlign: "center" }}>
-                {" "}
-                {lesson.cmt}{" "}
+                {cmt}
               </span>
             </div>
           </div>
+         
           <div
             style={{ flex: 1 }}
             className="d-flex flex-column mx-md-5 position-relative"
@@ -348,13 +362,13 @@ export default function Lesson({id, admin, nameCoures, setLessons, setSearch, se
                       [
                         {
                           color: [
-                            "#000000",
-                            "#f8f9fa",
                             "#007bff",
                             "#ffc107",
                             "#28a745",
                             "#6c757d",
                             "#dc3545",
+                            "#000000",
+                            "#f8f9fa",
                           ],
                         },
                         {
@@ -383,7 +397,7 @@ export default function Lesson({id, admin, nameCoures, setLessons, setSearch, se
             </div>
           </div>
         </div>
-        <Exercise admin={admin} id_lesson={id} />
+        {regis?<Exercise admin={admin} id_lesson={id} id_course={idCourse} />:''}
       </div>
     );
 }

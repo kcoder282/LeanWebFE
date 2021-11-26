@@ -10,7 +10,7 @@ import Modal from "../Component/Modal";
 import Load from "./../../Error/Load";
 import { Link } from "react-router-dom";
 
-export default function Courses(user) {
+export default function Courses({user}) {
   const [courses, setCourses] = useState([]);
   const [admin, setAdmin] = useState(false);
   const [courseEdit, setCourseEdit] = useState(false);
@@ -117,9 +117,10 @@ export default function Courses(user) {
               />
               {courseEdit.id !== -1 ? (
                 <Link
-                  to={`/courses/${(
-                    courseEdit.name + ""
-                  ).replaceAll(" ", "-")}/${courseEdit.id}`}
+                  to={`/courses/${(courseEdit.name + "").replaceAll(
+                    " ",
+                    "-"
+                  )}/${courseEdit.id}`}
                 >
                   <div className="btn btn-primary d-block">
                     <i className="fi fi-rr-interactive" /> Edit Lessons
@@ -418,13 +419,20 @@ export default function Courses(user) {
           )
         )}
       </div>
-      <div
-        onClick={() => setAdmin(!admin)}
-        className={"btn btn-admin " + (admin ? "btn-primary" : "")}
-      >
-        <i className="fi fi-rr-key" />{" "}
-        <span className="d-none d-sm-inline">admin</span>
-      </div>
+
+      {user.type === 1 ? (
+        <div
+          onClick={() => setAdmin(!admin)}
+          className={
+            "btn btn-admin rounded-pill " + (admin ? "btn-primary" : "")
+          }
+        >
+          <i className="fi fi-rr-key" />{" "}
+          <span className="d-none d-sm-inline">admin</span>
+        </div>
+      ) : (
+        ""
+      )}
     </div>
   );
 }

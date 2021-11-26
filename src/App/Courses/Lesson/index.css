@@ -4,3 +4,6 @@
 .clickOut{
     animation: none 
 }
+.hljs{
+    border-radius: .5rem;
+}

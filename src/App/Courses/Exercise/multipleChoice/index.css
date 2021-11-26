@@ -1,0 +1,21 @@
+.testcase{
+    color: var(--secondary);
+    cursor: pointer;
+    padding: .25rem;
+}
+.testcase.active{
+    color: var(--dark);
+    background-color: var(--light);
+    padding: .25rem;
+    border-top-left-radius: .5rem ;
+    border-bottom-left-radius: .5rem;
+}
+.output{
+    font-family: monospace;
+    background: var(--dark);
+    color: #fff;
+    min-height: 3rem;
+    white-space: pre;
+    border-radius: .25rem;
+    padding: .5rem;
+}

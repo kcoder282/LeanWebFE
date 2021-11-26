@@ -12,6 +12,7 @@ import { useEffect, useState } from 'react';
 import axios from 'axios';
 import { host, key, setKey } from '../Static';
 import { toast } from 'react-toastify';
+import Topic from './Topics/Topic';
 
 function App() {
   const [user, setUser] = useState({});
@@ -25,7 +26,7 @@ function App() {
     // }).catch((err) => {
     //   toast.error(""+err);
     // });
-    setKey("8190d0ad90c5b1c434b62494021753c2", 3600);
+    setKey("03f3016e6362ff490e4284a0eefb7aca", 3600);
     axios.get(host+"auth?key="+key())
     .then((result) => {
       setUser(result.data);
@@ -33,6 +34,7 @@ function App() {
        toast.error("" + err);
     });
   },[])
+
   return (
     <BrowserRouter>
       <Header user={user} />
@@ -40,8 +42,9 @@ function App() {
         <Menu />
         <Content>
           <Route path="/" element={<Load />} />
-          <Route path="/Courses/" element={<Courses />} />
-          <Route path="/Courses/:name/:id" element={<CourseDetail />} />
+          <Route path="/Courses/" element={<Courses user={user}/>} />
+          <Route path="/Courses/:name/:id" element={<CourseDetail user={user} />} />
+          <Route path="/topics" element={<Topic user={user}/>}/>
           <Route path=":all" element={<Error404 />} />
         </Content>
       </div>
