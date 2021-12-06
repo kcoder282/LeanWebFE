@@ -6,6 +6,9 @@
 .load-container{
     min-height: 70vh;
 }
+.load-container.mini{
+    min-height: 0;
+}
 .loader *{
     width: .5rem;
     margin: .2rem;

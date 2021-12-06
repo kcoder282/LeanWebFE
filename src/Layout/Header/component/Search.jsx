@@ -6,7 +6,7 @@ export default function Search() {
         <div className="search position-relative">
           <input
             type="text"
-            className="form-control rounded-pill pl-3 pr-5"
+            className="form-control rounded-pill pl-3 pr-5 w-100"
             placeholder="Bạn muốn học điều gì?"
           />
           <i

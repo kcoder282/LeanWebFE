@@ -1,8 +1,8 @@
 import './Load.css';
 
-export default function Load() {
+export default function Load({mini=false}) {
     return (
-      <div className="load-container w-100 d-flex justify-content-center align-items-center">
+      <div className={(mini?"mini":"")+" load-container w-100 d-flex justify-content-center align-items-center"}>
         <div className="loader">
             <div style={{ "--delay": "0s" }} />
             <div style={{ "--delay": ".2s" }} />

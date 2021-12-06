@@ -60,6 +60,7 @@ html {
     max-width: 1140px;
   }
 }
+
 .menu {
   position: fixed;
   left: 0;
@@ -409,8 +410,11 @@ html {
 .offset-11 {
   margin-left: 91.666667%;
 }
-
+.btn-admin{
+    bottom: 5rem;
+}
 @media (min-width: 576px) {
+
   .col-sm {
     -ms-flex-preferred-size: 0;
     flex-basis: 0;
@@ -1811,6 +1815,9 @@ html {
 }
 
 @media (min-width: 576px) {
+  .btn-admin{
+    bottom: 2rem;
+  }
   .menu {
     position: sticky;
     position: -webkit-sticky;
@@ -4729,4 +4736,8 @@ html {
 }
 a {
   color: var(--black);
+}
+.btn-default {
+  background-color: var(--secondary) !important;
+  color: #fff !important;
 }

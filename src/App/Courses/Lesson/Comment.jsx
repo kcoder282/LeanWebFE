@@ -3,7 +3,8 @@ import axios from "axios";
 import { host, key } from "./../../../Static";
 import CmtItem from "./CmtItem";
 
-export default function Comment({cmt, setcmt, id_lesson, user, admin, comment, setComment }) {
+export default function Comment({head=true, cmt, setcmt, id_lesson, user, admin, comment, setComment, type="lesson" }) {
+  
   const [content, setContent] = useState("");
   const [listCmt, setListCmt] = useState([]);
   const [cmtsub, setCmtsub] = useState("");
@@ -11,15 +12,13 @@ export default function Comment({cmt, setcmt, id_lesson, user, admin, comment, s
 
   useEffect(() => {
     axios
-      .get(host + `cmt?key=${key()}&type=lesson&id_lesson=${id_lesson}`)
+      .get(host + `cmt?key=${key()}&type=${type}&id_lesson=${id_lesson}`)
       .then((result) => {
         setListCmt(result.data);
-        let count = result.data.length;
-        result.data.map((e) => (count += e.cmt.length));
-        setcmt(count);
       })
       .catch((err) => {});
-  }, [id_lesson,setcmt]);
+  }, [id_lesson, type]);
+
   const sendcmt = (e, i) => {
     if (cmtsub.length > 0) {
       setLoadsub(true);
@@ -29,12 +28,15 @@ export default function Comment({cmt, setcmt, id_lesson, user, admin, comment, s
           id_cmt: e.id,
           content: cmtsub,
           id_lesson: id_lesson,
-          type: "lesson",
+          type: type,
         })
         .then((result) => {
           listCmt[i].cmt = result.data[i].cmt;
           setListCmt([...listCmt]);
           setCmtsub("");
+          let count = result.data.length;
+          result.data.map((e) => (count += e.cmt.length));
+          setcmt(count);
         })
         .finally(() => setLoadsub(false));
     }
@@ -45,19 +47,21 @@ export default function Comment({cmt, setcmt, id_lesson, user, admin, comment, s
         id: -1,
         id_lesson: id_lesson,
         content: content,
-        type: "lesson",
+        type: type,
       })
       .then((result) => {
         setListCmt(result.data);
         setContent("");
-        setComment(true);
+        let count = result.data.length;
+        result.data.map((e) => (count += e.cmt.length));
+        setcmt(count);
       })
       .catch();
   };
 
   return (
     <div className="commentData">
-      <div
+      {!head?'':<div
         onClick={() => setComment(!comment)}
         className="p-2 d-none d-md-block"
         style={{
@@ -81,13 +85,13 @@ export default function Comment({cmt, setcmt, id_lesson, user, admin, comment, s
             />
           </span>
         </div>
-      </div>
+      </div>}
         <div className="d-flex mt-2">
           <input
             value={content}
             onInput={(e) => setContent(e.target.value)}
             type="text"
-            className="form-control mr-1"
+            className="form-control mr-1 w-100"
             placeholder="Enter Comment"
           />
           <div onClick={sendCmtNew} className="btn btn-primary">
@@ -104,6 +108,8 @@ export default function Comment({cmt, setcmt, id_lesson, user, admin, comment, s
                 user={user}
                 admin={admin}
                 id_lesson={id_lesson}
+                type={type}
+                setcmt={setcmt}
               />
               <div
                 className="d-flex align-items-center"
@@ -115,7 +121,7 @@ export default function Comment({cmt, setcmt, id_lesson, user, admin, comment, s
                       .get(
                         `${host}cmt/${
                           e.id
-                        }?key=${key()}&id_lesson=${id_lesson}&type=lesson`
+                        }?key=${key()}&id_lesson=${id_lesson}&type=${type}`
                       )
                       .then((result) => {
                         setListCmt(result.data);
@@ -164,6 +170,8 @@ export default function Comment({cmt, setcmt, id_lesson, user, admin, comment, s
                         value={dataitem}
                         user={user}
                         admin={admin}
+                        type={type}
+                        setcmt={setcmt}
                       />
                       <div
                         className="d-flex align-items-center"
@@ -175,7 +183,7 @@ export default function Comment({cmt, setcmt, id_lesson, user, admin, comment, s
                               .get(
                                 `${host}cmt/${
                                   dataitem.id
-                                }?key=${key()}&id_lesson=${id_lesson}&type=lesson`
+                                }?key=${key()}&id_lesson=${id_lesson}&type=${type}`
                               )
                               .then((result) => {
                                 listCmt[i].cmt = result.data[i].cmt;
@@ -207,7 +215,7 @@ export default function Comment({cmt, setcmt, id_lesson, user, admin, comment, s
                       style={{ marginLeft: "2.5rem" }}
                       onInput={(item) => setCmtsub(item.target.value)}
                       value={cmtsub}
-                      className="flex-fill form-control mr-1"
+                      className="flex-fill form-control mr-1 w-100"
                       placeholder="Enter comment"
                     />
                     <div

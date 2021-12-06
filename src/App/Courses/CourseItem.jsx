@@ -37,7 +37,7 @@ export default function CourseItem(data) {
       .post(host + "regis/" + course.id + "?key=" + key())
       .then((result) => {
         toast.success("Đăng ký thành công");
-        data.setCourse(result.data);
+        data.setCourses(result.data);
       })
       .catch((err) => {
         toast.error("" + err);
@@ -90,11 +90,11 @@ export default function CourseItem(data) {
               <div style={{ fontSize: "2.5rem" }}>{course.keyWord}</div>
               <div style={{ fontSize: "1.25rem" }}>
                 <span style={{ color: "var(--yellow)" }}>
-                  {[1, 2, 3, 4, 5].map((e) =>
+                  {[1, 2, 3, 4, 5].map((e, i) =>
                     course.evaluate + 0.5 >= e ? (
-                      <i className="fi fi-sr-star ml-1" />
+                      <i key={i} className="fi fi-sr-star ml-1" />
                     ) : (
-                      <i className="fi fi-rr-star ml-1" />
+                      <i key={i} className="fi fi-rr-star ml-1" />
                     )
                   )}
                 </span>
@@ -104,7 +104,14 @@ export default function CourseItem(data) {
                   ) : (
                     <>
                       /{course.evaluate}
-                      <small style={{fontWeight: '400'}}> {course.mEvaluate}<i className="fi fi-rr-user" style={{fontSize: '.8em'}}/></small>
+                      <small style={{ fontWeight: "400" }}>
+                        {" "}
+                        {course.mEvaluate}
+                        <i
+                          className="fi fi-rr-user"
+                          style={{ fontSize: ".8em" }}
+                        />
+                      </small>
                     </>
                   )}
                 </span>

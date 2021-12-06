@@ -4,7 +4,7 @@ import { useState, useEffect } from 'react';
 import axios from 'axios';
 import { host, key } from './../../../Static';
 
-export default function CmtItem({index, setlist, list, value ,user ,id_lesson, admin}) {
+export default function CmtItem({setcmt, index, setlist, list, value ,user ,id_lesson, admin, type='lesson'}) {
     const [data, setData] = useState({})
     const [cmtMenu, setCmtMenu] = useState(false);
     const [edit, setEdit] = useState(false);
@@ -19,7 +19,7 @@ export default function CmtItem({index, setlist, list, value ,user ,id_lesson, a
 
     const deleteCmt = () =>{
         setCmtMenu(false);
-        axios.delete(`${host}cmt/${data.id}?key=${key()}&type=lesson&id_lesson=${id_lesson}`)
+        axios.delete(`${host}cmt/${data.id}?key=${key()}&type=${type}&id_lesson=${id_lesson}`)
         .then((result) => {
             if(index===undefined)
             {
@@ -27,7 +27,8 @@ export default function CmtItem({index, setlist, list, value ,user ,id_lesson, a
             }else{
                 list[index].cmt = result.data[index].cmt 
                 setlist([...list])
-            }          
+            }   
+                   
         }).catch((err) => {});
     }
     const contextmenu = (e)=>{
@@ -50,10 +51,9 @@ export default function CmtItem({index, setlist, list, value ,user ,id_lesson, a
         id_cmt: data.id_cmt,
         content: cmtcontent,
         id_lesson: id_lesson,
-        type: "lesson",
+        type: type,
         })
-        .then((result) => {
-            
+        .then((result) => {  
             result.data.forEach(e=>{
                 if(e.id === data.id)
                 {
@@ -82,10 +82,10 @@ export default function CmtItem({index, setlist, list, value ,user ,id_lesson, a
         <div className="d-flex align-items-start my-2" >
 
            <img className="mr-1" src={data.user.avata??icon} alt="" 
-           style={{width:'2rem', height:'2rem',borderRadius:'50%'}}/> 
+           style={{width:'2rem', height:'2rem', borderRadius:'50%'}}/> 
            
            <div onMouseLeave={leave} onContextMenu={contextmenu} className="p-2 d-flex flex-column position-relative" 
-           style={{flex:1, border: '1px solid #5551', borderRadius: '1rem', boxShadow:'.25rem .25rem .5rem #0001'}}>
+           style={{flex:1, border: '1px solid #5551', borderRadius: '.5rem', boxShadow:'.25rem .25rem .5rem #0001'}}>
                 <small className="text-primary">{data.user.name}</small>
                 <div className="d-flex">
                     <input onBlur={()=>{setEdit(false); setCmtcontent(data.content);}} disabled={!edit} onKeyDown={keyDown} onInput={change}

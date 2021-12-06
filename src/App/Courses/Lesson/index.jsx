@@ -1,8 +1,8 @@
 import "react-quill/dist/quill.bubble.css";
 import ReactQuill from "react-quill";
-import './index.css';
 import hljs from "highlight.js";
 import "highlight.js/styles/atom-one-dark-reasonable.css";
+import './index.css';
 import { useEffect, useRef, useState } from "react";
 import axios from "axios";
 import { host, key } from "./../../../Static";
@@ -16,7 +16,7 @@ hljs.configure({
   languages: ["javascript", "cpp", "python", "java"]
 });
 
-export default function Lesson({cmt ,idCourse, id, admin, nameCoures, setLessons, setSearch, setChange, comment, setComment}) {
+export default function Lesson({cmt, setCmt,idCourse, id, admin, nameCoures, setLessons, setSearch, setChange, comment, setComment}) {
     const [lesson, setLesson] = useState({});
     const [likeNumber, setlikeNumber] = useState(0);
     const [name, setName] = useState("");
@@ -41,6 +41,7 @@ export default function Lesson({cmt ,idCourse, id, admin, nameCoures, setLessons
            content.current = result.data.content;
            setmyLike(result.data.mylike);
            setlikeNumber(result.data.like);
+           setCmt(result.data.cmt)
            setRegis(result.data.regis);
            check.current = setTimeout(() => {
               axios.get(host + "lessons/proccess/"+id+"?key="+key()+"&id_course="+idCourse)
@@ -54,7 +55,7 @@ export default function Lesson({cmt ,idCourse, id, admin, nameCoures, setLessons
        return () => {
          clearTimeout(check.current);
        };
-    }, [id, idCourse, setLessons])
+    }, [id, idCourse, setCmt, setLessons])
 
    
 
@@ -259,7 +260,7 @@ export default function Lesson({cmt ,idCourse, id, admin, nameCoures, setLessons
                   onFocus={() => setQuill(true)}
                   disabled={!admin}
                   type="text"
-                  className="form-control text-center text-uppercase fs-3 mb-5 mt-4"
+                  className="form-control w-100 text-center text-uppercase fs-3 mb-5 mt-4"
                   value={name}
                   placeholder="Enter name lesson"
                   onInput={(data) => {
@@ -292,7 +293,7 @@ export default function Lesson({cmt ,idCourse, id, admin, nameCoures, setLessons
               <input
                 onFocus={() => setQuill(true)}
                 type="text"
-                className="form-control"
+                className="form-control w-100"
                 placeholder="Enter URL video or ID video..."
                 value={video}
                 onInput={(e) => setVideo(e.target.value)}

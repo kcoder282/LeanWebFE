@@ -607,7 +607,7 @@ export default function MultipleChoice({ admin, id_lesson, value, setListQuestio
                   setAnswer([...answer]);
                 }}
                 style={{ fontFamily: "monospace" }}
-                className="form-control my-2"
+                className="form-control my-2 w-100"
                 placeholder="Enter input TestCase"
               />
               <div>

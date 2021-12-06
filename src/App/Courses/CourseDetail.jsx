@@ -19,6 +19,7 @@ export default function CourseDetail({user}) {
     const [idChange, setIdChange] = useState(-1);
     const [comment, setComment] = useState(false);
     const [cmt, setCmt] = useState(0);
+
     const changeData = (number)=>{
       setCmt(number);
     }
@@ -38,6 +39,7 @@ export default function CourseDetail({user}) {
         toast.err(""+err);
       });;
     }
+
     useEffect(() => {
         axios.get(host + `lessons?id_course=${id}&key=${key()}`)
         .then((result) => {
@@ -56,8 +58,8 @@ export default function CourseDetail({user}) {
         <div className="row pb-5 mb-5">
           <div className="col-lg-9 px-0">
           {search.id===undefined?'topics':
-          <Lesson setComment={setComment} comment={comment}
-          cmt={cmt} idCourse={id} setChange={setChange} setSearch={setSearch}
+          <Lesson setComment={setComment} comment={comment} setCmt={setCmt} cmt={cmt}
+          idCourse={id} setChange={setChange} setSearch={setSearch}
           setLessons={setLessons} nameCoures={name} id={search.id} admin={admin}/>}
           </div>
           <div className="col-lg-3 d-flex flex-column-reverse flex-lg-column">
@@ -86,11 +88,13 @@ export default function CourseDetail({user}) {
               )
             }
             </div>
-            {search.id!==undefined?<Comment id_lesson={search.id}
+            {search.id!==undefined?
+            <Comment id_lesson={search.id}
             cmt={cmt}
             setcmt={changeData}
             user={user} admin={admin}
-            comment={comment} setComment={setComment}/>:''}         
+            comment={comment}
+            setComment={setComment}/>:''}         
           </div>
         
           {user.type===1?

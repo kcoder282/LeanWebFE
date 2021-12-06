@@ -114,6 +114,7 @@ export default function Courses({user}) {
                 setCourseModal={setCourseEdit}
                 setSave={setSave}
                 regis={courseEdit.regis}
+                setCourses={setCourses}
               />
               {courseEdit.id !== -1 ? (
                 <Link
@@ -132,7 +133,7 @@ export default function Courses({user}) {
               Tên Khóa học
               <input
                 type="text"
-                className="form-control"
+                className="form-control w-100"
                 value={courseEdit.name}
                 onInput={(e) => {
                   courseEdit.name = e.target.value;
@@ -160,7 +161,7 @@ export default function Courses({user}) {
               KeyWord Khóa học
               <input
                 type="text"
-                className="form-control"
+                className="form-control w-100"
                 value={courseEdit.keyWord}
                 onInput={(e) => {
                   courseEdit.keyWord = e.target.value;
@@ -186,7 +187,7 @@ export default function Courses({user}) {
                 ) : null}
               </div>
               Color
-              <div className="form-control d-flex justify-content-around">
+              <div className="form-control d-flex justify-content-around w-100">
                 <input
                   type="color"
                   className="flex-fill"
@@ -214,7 +215,7 @@ export default function Courses({user}) {
               <input
                 step="100000"
                 type="number"
-                className="form-control"
+                className="form-control w-100"
                 value={courseEdit.price}
                 onInput={(e) => {
                   courseEdit.price = e.target.value;
@@ -240,7 +241,7 @@ export default function Courses({user}) {
               <textarea
                 style={{ resize: "none" }}
                 rows="3"
-                className="form-control"
+                className="form-control w-100"
                 value={courseEdit.description}
                 onInput={(e) => {
                   courseEdit.description = e.target.value;

@@ -5,7 +5,7 @@
 }
 .imgViewData .view{
     position: relative;
-    transition: transform .7s cubic-bezier(0.19, 1, 0.22, 1);
+    transition: transform 1s cubic-bezier(0.19, 1, 0.22, 1);
 }
 
 .imgViewData .imgitem{
@@ -13,7 +13,6 @@
     width: 100%;
     background-position: center center;
     background-size: cover;
-    padding-top: 60%;
     border-radius: .5rem;
 }
 .imgViewData .view>*:nth-child(1)
@@ -24,12 +23,6 @@
     width: 100%;
     bottom: 1rem;
     left:0;
-    transition: transform .4s .5s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    transform: translateY(300%);
-}
-.imgViewData:hover .btn-img{
-    transition-delay: 0ms;
-    transform: translateY(0);
 }
 .item-img{
     width: 2rem;
@@ -78,8 +71,12 @@
     color: #fff;
     cursor: pointer;
     transition: color .2s linear;
+
 }
 .imgViewData .fi-sr-cross-circle:hover{
     color: rgb(255, 16, 16);
     text-shadow: none;
+}
+.img-tmp>img{
+    transform: translate(-50%, -50%);
 }
