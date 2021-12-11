@@ -2,7 +2,7 @@ import "./ImgView.css";
 import { useState } from 'react';
 import { useRef } from 'react';
 import { useEffect } from 'react';
-export default function ListView({children, className}) {
+export default function ListView({children, className, durTime=5000}) {
   const time = useRef();
   const [select, setSelect] = useState(0);
 
@@ -13,20 +13,20 @@ export default function ListView({children, className}) {
            return 0;
          } else return data + 1;
        });
-   }, 5000);
+   }, durTime);
 
    return () => {
      clearInterval(time.current);
    };
-  }, [children.length, select]);
+  }, [children.length, durTime, select]);
 
   useEffect(() => {
     setSelect(children.length - 1);
   }, [children.length]);
 
   return (
-    <div className="imgViewData">
-      <div className={"view position-relative "+className}
+    <div className={"imgViewData "+className}>
+      <div className={"view position-relative "}
         style={{ transform: `translateX(-${select * 100}%)` }}>
 
         {children.length>0?children.map((e,i)=>

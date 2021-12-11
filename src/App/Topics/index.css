@@ -19,3 +19,15 @@
 .close-btn:hover{
     transform: scale(1.1);
 }
+.topic{
+    transition: all .3s ease-in;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    background-color: #fff;
+    z-index: 0;
+}
+.topic.active{
+    outline: 1px solid #007bff;
+    transform: translateX(-.5rem);
+}

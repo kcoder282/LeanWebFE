@@ -16,13 +16,9 @@ hljs.configure({
   languages: ["javascript", "cpp", "python", "java"]
 });
 
-export default function Lesson({cmt, setCmt,idCourse, id, admin, nameCoures, setLessons, setSearch, setChange, comment, setComment}) {
+export default function Lesson({cmt, setCmt, idCourse, id, admin, nameCoures, setLessons, setSearch, setChange, comment, setComment}) {
     const [lesson, setLesson] = useState({});
     const [likeNumber, setlikeNumber] = useState(0);
-    const [name, setName] = useState("");
-    const [video, setVideo] = useState("");
-    const content = useRef("");
-    const [quill, setQuill] = useState(true);
     const [myLike, setmyLike] = useState(false);
     const [confirm, setConfirm] = useState(false);
     const [regis, setRegis] = useState(false);
@@ -31,69 +27,79 @@ export default function Lesson({cmt, setCmt,idCourse, id, admin, nameCoures, set
     let navigate = useNavigate();
 
     useEffect(() => {
-       if(id!==undefined)
-       axios.get(host+`lessons/${id}?key=${key()}`)
-       .then((result) => {  
-           content.current = result.data.content;      
-           setLesson(result.data);
-           setName(result.data.name);
-           setVideo(result.data.video);
-           content.current = result.data.content;
-           setmyLike(result.data.mylike);
-           setlikeNumber(result.data.like);
-           setCmt(result.data.cmt)
-           setRegis(result.data.regis);
-           check.current = setTimeout(() => {
-              axios.get(host + "lessons/proccess/"+id+"?key="+key()+"&id_course="+idCourse)
-              .then((result) => {
-                setLessons(result.data);
-              }).catch((err) => {});
-           }, 120000)
-       }).catch((err) => {
-           toast.error(''+ err);
-       });
+       if(parseInt(id)!==-1)
+       {
+         axios.get(host+`lessons/${id}?key=${key()}`)
+          .then((result) => {       
+              setLesson(result.data);
+              setmyLike(result.data.mylike);
+              setlikeNumber(result.data.like);
+              setCmt(result.data.cmt)
+              setRegis(result.data.regis);
+              check.current = setTimeout(() => {
+                  axios.get(host + "lessons/proccess/"+id+"?key="+key()+"&id_course="+idCourse)
+                  .then((result) => {
+                    setLessons(result.data);
+                  }).catch((err) => {});
+              }, 120000)
+          }).catch((err) => {
+              toast.error(''+ err);
+          });
+       }else{
+          setLesson({id:-1, name:"", content:'', video:'', id_course: idCourse});
+          setmyLike(false);
+          setlikeNumber(0);
+          setCmt(0);
+          setRegis(false);
+       }
        return () => {
          clearTimeout(check.current);
        };
-    }, [id, idCourse, setCmt, setLessons])
+    }, [id, idCourse, lesson.id_course, setCmt, setLessons])
 
    
 
     const createLesson = () =>{
-        setName("");
-        setVideo("");
-        content.current="";
         setLesson({id:-1, name:"", content:'', video:'', id_course: lesson.id_course});
+        
     }
+
     const saveLesson = () => {
-        lesson.name = name;
-        lesson.video = video;
-        lesson.content = content.current;
-        if(lesson.id!==-1)
+        let name = document.getElementById("inputname").innerText;
+        if(name === "") toast.error("Bạn chưa nhập tên");
+        else
         {
-            axios.put(host + "lessons/" + id + "?key=" + key(), lesson)
-            .then((result) => {
-            setLesson(result.data);
-            toast.success("Lưu dữ liệu thành công");
-            console.log(result.data);
-            })
-            .catch((err) => {
-                toast.error(""+err);
-            });
-        }else{
-            axios.post(host + "lessons?key=" + key(), lesson)
-            .then((result) => {
-                setLesson(result.data);
-                navigate(`/courses/${nameCoures}/${result.data.id_course}?lesson=${result.data.name.replaceAll(" ","-").replaceAll("?","")}&id=${result.data.id}`);
-                toast.success("Thêm dữ liệu thành công"); 
-                axios.get(host + `lessons?id_course=${lesson.id_course}&key=${key()}`)
-                .then((result) => {setLessons(result.data);})
-                .catch((err) => {toast.error("" + err);}); 
-                setSearch({id:result.data.id});          
-            })
-            .catch((err) => {
-                toast.error(""+ err);
-            })
+          lesson.content = document.querySelector(".ql-editor").innerHTML;
+          lesson.video = document.getElementById("inputvideo").innerText;
+          lesson.name = name;
+          if(lesson.id!==-1)
+          {
+            lesson.content = document.querySelector(".ql-editor").innerHTML;
+              axios.put(host + "lessons/" + id + "?key=" + key(), lesson)
+              .then((result) => {
+              setLesson(result.data);
+              toast.success("Lưu dữ liệu thành công");
+              console.log(result.data);
+              })
+              .catch((err) => {
+                  toast.error(""+err);
+              });
+          }else{
+              lesson.content = document.querySelector(".ql-editor").innerHTML;
+              axios.post(host + "lessons?key=" + key(), lesson)
+              .then((result) => {
+                  setLesson(result.data);
+                  navigate(`/courses/${nameCoures}/${result.data.id_course}?lesson=${result.data.name.replaceAll(" ","-").replaceAll("?","")}&id=${result.data.id}`);
+                  toast.success("Thêm dữ liệu thành công"); 
+                  axios.get(host + `lessons?id_course=${lesson.id_course}&key=${key()}`)
+                  .then((result) => {setLessons(result.data);})
+                  .catch((err) => {toast.error("" + err);}); 
+                  setSearch({id:result.data.id});          
+              })
+              .catch((err) => {
+                  toast.error(""+ err);
+              })
+          }
         }
     }
     const like =()=>{
@@ -149,7 +155,7 @@ export default function Lesson({cmt, setCmt,idCourse, id, admin, nameCoures, set
         {confirm ? (
           <Modal>
             <div>
-              Xác nhận xóa bài học <b>{name}</b>
+              Xác nhận xóa bài học <b>{lesson.name}</b>
             </div>
             <div className="mt-2 d-flex justify-content-around">
               <div onClick={deleteLesson} className="btn btn-danger">
@@ -187,7 +193,10 @@ export default function Lesson({cmt, setCmt,idCourse, id, admin, nameCoures, set
                 {likeNumber}
               </span>
             </div>
-            <div onClick={()=>setComment(!comment)} className="d-flex flex-row flex-md-column">
+            <div
+              onClick={() => setComment(!comment)}
+              className="d-flex flex-row flex-md-column"
+            >
               <i
                 className="fi fi-rr-comment fs-3 mt-md-3 mr-1 mr-md-0"
                 style={{ color: "var(--dark)", cursor: "pointer" }}
@@ -197,7 +206,7 @@ export default function Lesson({cmt, setCmt,idCourse, id, admin, nameCoures, set
               </span>
             </div>
           </div>
-         
+
           <div
             style={{ flex: 1 }}
             className="d-flex flex-column mx-md-5 position-relative"
@@ -256,66 +265,53 @@ export default function Lesson({cmt, setCmt,idCourse, id, admin, nameCoures, set
             )}
             {admin ? (
               <div className="text-uppercase position-relative">
-                <input
-                  onFocus={() => setQuill(true)}
-                  disabled={!admin}
-                  type="text"
-                  className="form-control w-100 text-center text-uppercase fs-3 mb-5 mt-4"
-                  value={name}
-                  placeholder="Enter name lesson"
-                  onInput={(data) => {
-                    setName(data.target.value);
-                  }}
+                {admin ? <h5 className="my-0">Tên bài học</h5> : ""}
+                <div
+                  contentEditable={admin}
+                  id="inputname"
+                  className={
+                    "form-control w-100 text-uppercase fs-3 mb-5 " +
+                    (admin ? " mt-1" : " text-center mt-4")
+                  }
+                  dangerouslySetInnerHTML={{ __html: lesson.name }}
                   style={{ color: "#007bff", fontWeight: "700" }}
                 />
-
-                {lesson.name !== name ? (
-                  <i
-                    onClick={() => setName(lesson.name)}
-                    className="position-absolute fi fi-rr-cross-circle fs-3 text-primary"
-                    style={{ top: ".5rem", right: "1rem", cursor: "pointer" }}
-                  />
-                ) : (
-                  ""
-                )}
               </div>
             ) : (
               <div
                 className="text-uppercase fs-3 mb-5 mt-4 text-center"
                 style={{ color: "#007bff", fontWeight: "700" }}
               >
-                {name}
+                {lesson.name}
               </div>
             )}
-            <div
-              className={"position-relative " + (!admin ? "d-none" : "mt-3")}
-            >
-              <input
-                onFocus={() => setQuill(true)}
-                type="text"
-                className="form-control w-100"
-                placeholder="Enter URL video or ID video..."
-                value={video}
-                onInput={(e) => setVideo(e.target.value)}
+            {admin ? <h5 className="my-0 text-uppercase">Tên bài học</h5> : ""}
+            <div className={!admin ? "d-none" : "d-flex mb-1"}>
+              <div
+                id="inputvideo"
+                contentEditable={admin}
+                className="form-control flex-fill"
+                dangerouslySetInnerHTML={{ __html: lesson.video }}
               />
-              {lesson.video !== video ? (
-                <i
-                  onClick={() => setVideo(lesson.video)}
-                  className="position-absolute fi fi-rr-cross-circle text-primary"
-                  style={{ top: ".5rem", right: "1rem", cursor: "pointer" }}
-                />
-              ) : (
-                ""
-              )}
+              <div
+                onClick={() => {
+                  lesson.video =
+                    document.getElementById("inputvideo").innerText;
+                  setLesson({ ...lesson });
+                }}
+                className="btn btn-primary ml-2"
+              >
+                Load Video
+              </div>
             </div>
-            {video !== "" ? (
+            {lesson.video !== "" ? (
               <div className="px-2">
                 <div className="embed-responsive embed-responsive-16by9 mb-3">
                   <iframe
                     className="embed-responsive-item"
                     src={
                       "https://www.youtube.com/embed/" +
-                      video
+                      lesson.video
                         .replace("https://youtu.be/", "")
                         .replace("https://www.youtube.com/watch?v=", "")
                     }
@@ -330,75 +326,62 @@ export default function Lesson({cmt, setCmt,idCourse, id, admin, nameCoures, set
               <div className="mb-3" />
             )}
             <div>
-              {quill ? (
-                <div
-                  onClick={() => (admin ? setQuill(false) : {})}
-                  className={"quill admin " + (admin ? "focus" : "")}
-                >
-                  <div className="ql-container ql-bubble">
-                    <div
-                      className="ql-editor"
-                      dangerouslySetInnerHTML={{ __html: content.current }}
-                    />
-                  </div>
-                </div>
-              ) : (
-                <ReactQuill
-                  className={(admin ? "focus" : "") + " active"}
-                  placeholder="Enter content"
-                  theme="bubble"
-                  readOnly={!admin}
-                  defaultValue={content.current}
-                  modules={{
-                    toolbar: [
-                      ["bold", "italic", { size: ["small", false, "large"] }],
-                      ["link", "image", "blockquote", "code-block"],
-                      [
-                        { list: "ordered" },
-                        { list: "bullet" },
-                        { align: [] },
-                        { script: "sub" },
-                        { script: "super" },
-                      ],
-                      [
-                        {
-                          color: [
-                            "#007bff",
-                            "#ffc107",
-                            "#28a745",
-                            "#6c757d",
-                            "#dc3545",
-                            "#000000",
-                            "#f8f9fa",
-                          ],
-                        },
-                        {
-                          background: [
-                            "#000000",
-                            "#f8f9fa",
-                            "#007bff",
-                            "#ffc107",
-                            "#28a745",
-                            "#6c757d",
-                            "#dc3545",
-                          ],
-                        },
-                      ],
-                      ["clean"],
+              <ReactQuill
+                className={(admin ? "focus" : "") + " active"}
+                placeholder={admin?"Enter content":"Yêu cầu đăng nhập..."}
+                theme="bubble"
+                readOnly={!admin}
+                value={lesson.content ?? ""}
+                modules={{
+                  toolbar: [
+                    ["bold", "italic", { size: ["small", false, "large"] }],
+                    ["link", "image", "blockquote", "code-block"],
+                    [
+                      { list: "ordered" },
+                      { list: "bullet" },
+                      { align: [] },
+                      { script: "sub" },
+                      { script: "super" },
                     ],
-                    syntax: {
-                      highlight: (text) => hljs.highlightAuto(text).value,
-                    },
-                  }}
-                  onChange={(e) => {
-                    content.current = e;
-                  }}
-                />
-              )}
+                    [
+                      {
+                        color: [
+                          "#007bff",
+                          "#ffc107",
+                          "#28a745",
+                          "#6c757d",
+                          "#dc3545",
+                          "#000000",
+                          "#f8f9fa",
+                        ],
+                      },
+                      {
+                        background: [
+                          "#000000",
+                          "#f8f9fa",
+                          "#007bff",
+                          "#ffc107",
+                          "#28a745",
+                          "#6c757d",
+                          "#dc3545",
+                        ],
+                      },
+                    ],
+                    ["clean"],
+                  ],
+                  syntax: {
+                    highlight: (text) => hljs.highlightAuto(text).value,
+                  },
+                }}
+              />
             </div>
           </div>
         </div>
-        {regis?<Exercise admin={admin} id_lesson={id} id_course={idCourse} />:''}
+        {regis ? (
+          <Exercise admin={admin} id_lesson={id} id_course={idCourse} />
+        ) : (
+          ""
+        )}
       </div>
     );
 }

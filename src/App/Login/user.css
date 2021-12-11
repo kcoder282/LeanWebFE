@@ -1,0 +1,21 @@
+
+td, th {
+  text-align: left;
+  padding: .5rem 1rem;
+}
+
+tr:nth-child(even) {
+  background-color: #eee;
+}
+.text-admin{
+    display: inline-block;
+    background-color: gold;
+    padding: 0 .25rem;
+    border-radius: .25rem;
+    font-size: .8rem;
+    transform: translateY(-.3rem);
+}
+.disable{
+    cursor: not-allowed;
+    opacity: .5 !important;
+}

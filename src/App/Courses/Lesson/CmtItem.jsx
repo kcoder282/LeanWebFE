@@ -1,8 +1,7 @@
-import icon from '../../../Icon/svg/fi-rr-user.svg';
 import "./cmt.css";
 import { useState, useEffect } from 'react';
 import axios from 'axios';
-import { host, key } from './../../../Static';
+import { host, imgurl, key } from './../../../Static';
 
 export default function CmtItem({setcmt, index, setlist, list, value ,user ,id_lesson, admin, type='lesson'}) {
     const [data, setData] = useState({})
@@ -81,7 +80,7 @@ export default function CmtItem({setcmt, index, setlist, list, value ,user ,id_l
     return data.id===undefined?'':(    
         <div className="d-flex align-items-start my-2" >
 
-           <img className="mr-1" src={data.user.avata??icon} alt="" 
+           <img className="mr-1" src={imgurl(data.user.avata)} alt="" 
            style={{width:'2rem', height:'2rem', borderRadius:'50%'}}/> 
            
            <div onMouseLeave={leave} onContextMenu={contextmenu} className="p-2 d-flex flex-column position-relative" 

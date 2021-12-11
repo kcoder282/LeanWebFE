@@ -64,7 +64,7 @@ export default function Courses({user}) {
   };
   const deleteData = () => {
     axios
-      .delete(host + "courses?key=" + key() + courseEdit.id)
+      .delete(host + "courses/" + courseEdit.id + "?key=" + key())
       .then((result) => {
         setCourses(result.data);
         toast.success("Xóa khóa học Thành công");
@@ -115,6 +115,7 @@ export default function Courses({user}) {
                 setSave={setSave}
                 regis={courseEdit.regis}
                 setCourses={setCourses}
+                user={user}
               />
               {courseEdit.id !== -1 ? (
                 <Link
@@ -357,6 +358,7 @@ export default function Courses({user}) {
               myevaluate={e.myevaluate}
               mEvaluate={e.mEvaluate}
               setCourses={setCourses}
+              user={user}
             />
           ) : (
             ""
@@ -414,6 +416,7 @@ export default function Courses({user}) {
               regis={e.regis}
               setCourses={setCourses}
               mEvaluate={e.mEvaluate}
+              user={user}
             />
           ) : (
             ""

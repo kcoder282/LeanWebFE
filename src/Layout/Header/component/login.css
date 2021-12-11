@@ -1,0 +1,7 @@
+.hover{
+    cursor: pointer;
+    transition: all .2s linear;
+}
+.hover:hover{
+    background-color: #ccc5;
+}

@@ -412,6 +412,7 @@ html {
 }
 .btn-admin{
     bottom: 5rem;
+    z-index: 1000;
 }
 @media (min-width: 576px) {
 
@@ -1817,6 +1818,7 @@ html {
 @media (min-width: 576px) {
   .btn-admin{
     bottom: 2rem;
+    z-index: 1000;
   }
   .menu {
     position: sticky;

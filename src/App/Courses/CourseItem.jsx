@@ -1,13 +1,17 @@
 import React, { useState, useEffect } from "react";
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { host, key } from "./../../Static";
 import { toast } from 'react-toastify';
+import Modal from "../Component/Modal";
 
 export default function CourseItem(data) {
   const [load, setLoad] = useState(false);
   const [myEvaluate, setMyEvaluate] = useState(0);
   const [course, setCourse] = useState({});
+  const [modal, setModal] = useState(false);
+  const navi = useNavigate();
+
   useEffect(() => {
       setCourse({...data});
       setMyEvaluate(data.myevaluate);
@@ -42,8 +46,9 @@ export default function CourseItem(data) {
       .catch((err) => {
         toast.error("" + err);
       })
-      .finally(() => setLoad(false));
+      .finally(() => {setLoad(false);setModal(false)});
   }
+
   return (
     <div
       className={
@@ -51,6 +56,31 @@ export default function CourseItem(data) {
         (course.status === 0 ? (course.admin ? "fade" : "d-none") : "")
       }
     >
+      {modal?
+      <Modal>
+        <div>
+          Bạn thật sự muốn đăng ký khóa học này?
+        </div>
+        <div className="py-4 my-2 text-center rounded" style={{ background: "linear-gradient(145deg, " + course.color + ")", color: "#fff"}}>
+          <h1 className="text-white">{course.keyWord}</h1>
+        </div>
+        <h4 className="my-0">{course.name}</h4>
+        <div className="d-flex justify-content-around mt-3">
+          <div onClick={data.user.id===undefined?navi("/login"):regis} className="btn btn-primary">
+            {load?
+              <span className="load mr-2">
+                <i className="fi fi-rr-spinner"/>
+              </span>:
+              <i className="fi fi-rr-e-learning mr-2"/>
+            } 
+            <span>Đăng ký</span>
+          </div>
+          <div onClick={()=>setModal(false)} className="btn " style={{background:'#555', color:'#fff'}}>
+            <i className="fi fi-rr-cross-circle mr-2"/> 
+            <span>Hủy</span>
+          </div>
+        </div>
+      </Modal>:''}
       <div
         className="course"
         onClick={
@@ -180,7 +210,7 @@ export default function CourseItem(data) {
               </div>
             </span>
           ) : (
-            <span onClick={regis} className="btn btn-primary flex-fill shadow">
+            <span onClick={()=>setModal(true)} className="p-3 rounded flex-fill shadow" style={{cursor:'pointer'}}>
               <i className="fi fi-rr-bookmark mr-2" />
               {course.price + "" === "0"
                 ? "Khóa học Miễn Phí"

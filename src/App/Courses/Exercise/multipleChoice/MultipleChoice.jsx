@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import { useState } from 'react'
 import './index.css'
 import axios from 'axios';
 import { host, key } from '../../../../Static';
@@ -62,7 +62,6 @@ export default function MultipleChoice({ admin, id_lesson, value, setListQuestio
       }
       if (check || type === 'cd') {
         setLoad(true);
-        console.log(answer);
         axios
           .post(host + "questions?key=" + key(), {
             id: value.id,
@@ -161,7 +160,8 @@ export default function MultipleChoice({ admin, id_lesson, value, setListQuestio
                 </span>
               ) : (
                 ""
-              )}Xóa
+              )}
+              Xóa
             </div>
             <div onClick={() => setModal(false)} className="btn btn-primary">
               Hủy
@@ -235,12 +235,22 @@ export default function MultipleChoice({ admin, id_lesson, value, setListQuestio
                   style={{ top: 0, left: 0 }}
                   dangerouslySetInnerHTML={{
                     __html: hljs.highlightAuto(
-                      admin?(questionCode === "" ? "//Enter Code ..." : questionCode):(userCode === "" ? "//Enter Code ..." : userCode)
+                      admin
+                        ? questionCode === ""
+                          ? "//Enter Code ..."
+                          : questionCode
+                        : userCode === ""
+                        ? "//Enter Code ..."
+                        : userCode
                     ).value,
                   }}
                 ></code>
                 <code
-                  onBlur={(e) => admin?setQuestionCode(e.target.innerText):setUserCode(e.target.innerText)}
+                  onBlur={(e) =>
+                    admin
+                      ? setQuestionCode(e.target.innerText)
+                      : setUserCode(e.target.innerText)
+                  }
                   onInput={onchangeCode}
                   style={{
                     caretColor: "var(--danger)",
@@ -255,7 +265,7 @@ export default function MultipleChoice({ admin, id_lesson, value, setListQuestio
                   contentEditable={admin || type === "cd"}
                   className="hljs position-absolute w-100 h-100"
                 >
-                  {admin?questionCode:userCode}
+                  {admin ? questionCode : userCode}
                 </code>
               </pre>
 
@@ -265,17 +275,17 @@ export default function MultipleChoice({ admin, id_lesson, value, setListQuestio
                     <div
                       onClick={() => {
                         setLoadRun(true);
-                        let a = {answer:input}
+                        let a = { answer: input };
                         axios
                           .post(host + "code", {
-                            code: admin?questionCode:userCode,
+                            code: admin ? questionCode : userCode,
                             input: [a],
                           })
                           .then((result) => {
                             if (result.data.error === null) {
-                              setOutput('Output:\n'+result.data.data[0]);                              
+                              setOutput("Output:\n" + result.data.data[0]);
                             } else {
-                              setOutput('Error:\n'+result.data.error);
+                              setOutput("Error:\n" + result.data.error);
                             }
                           })
                           .catch((err) => {})
@@ -308,28 +318,27 @@ export default function MultipleChoice({ admin, id_lesson, value, setListQuestio
                         onClick={() => {
                           setLoadTest(true);
                           setOutput("");
-                          if(admin)
-                          {
-                            axios.post(host + "code", {
-                              code: questionCode,
-                              input: answer,
-                            })
-                            .then((result) => {
-                              
-                              if (result.data.error === null) {
-                                answer.map(
-                                  (e, i) =>
-                                    (answer[i].output = result.data.data[i])
-                                );
-                                setAnswer([...answer]);
-                                setTestCase(true);
-                              } else {
-                                setOutput('error:\n'+result.data.error);
-                              }
-                            })
-                            .catch((err) => {})
-                            .finally(() => setLoadTest(false));
-                          }else{
+                          if (admin) {
+                            axios
+                              .post(host + "code", {
+                                code: questionCode,
+                                input: answer,
+                              })
+                              .then((result) => {
+                                if (result.data.error === null) {
+                                  answer.map(
+                                    (e, i) =>
+                                      (answer[i].output = result.data.data[i])
+                                  );
+                                  setAnswer([...answer]);
+                                  setTestCase(true);
+                                } else {
+                                  setOutput("error:\n" + result.data.error);
+                                }
+                              })
+                              .catch((err) => {})
+                              .finally(() => setLoadTest(false));
+                          } else {
                             axios
                               .post(host + "questions?key=" + key(), {
                                 id: value.id,
@@ -340,14 +349,14 @@ export default function MultipleChoice({ admin, id_lesson, value, setListQuestio
                                 id_course: id_course,
                               })
                               .then((result) => {
-                                result.data.array.forEach((e,i) => {
-                                   answer[i].ouput = e.ouput;
-                                   answer[i].check = e.check;
+                                result.data.forEach((e, i) => {
+                                  answer[i].output = e.output;
+                                  answer[i].check = e.check;
                                 });
                                 setAnswer([...answer]);
                                 setTestCase(true);
                               })
-                              .catch((err) => {})
+                              .catch()
                               .finally(() => setLoadTest(false));
                           }
                         }}
@@ -404,7 +413,7 @@ export default function MultipleChoice({ admin, id_lesson, value, setListQuestio
         </div>
         {admin ? (
           ""
-        ) : happy && type==='qz' ? (
+        ) : happy && type === "qz" ? (
           <span style={{ color: "var(--success)" }}>
             <i className="fi fi-sr-checkbox ml-2" /> Chính xác
           </span>
@@ -430,14 +439,36 @@ export default function MultipleChoice({ admin, id_lesson, value, setListQuestio
         ""
       )}
 
-      {output.length===0?'':<div className="mx-3 position-relative">
-      <pre className="p-3"
-      style={{maxWidth: '100%', overflow:'auto', maxHeight:'10rem',background:'var(--dark)',color: 'var(--light)', border:'.25rem'}}>
-        {output}
-      </pre>
-      <i onClick={()=>setOutput("")} className="position-absolute fi fi-sr-cross-circle "
-      style={{color: 'var(--danger)', cursor:'pointer', top:'.5rem', right:'.5rem', zIndex:'5'}}/>
-      </div>}
+      {output.length === 0 ? (
+        ""
+      ) : (
+        <div className="mx-3 position-relative">
+          <pre
+            className="p-3"
+            style={{
+              maxWidth: "100%",
+              overflow: "auto",
+              maxHeight: "10rem",
+              background: "var(--dark)",
+              color: "var(--light)",
+              border: ".25rem",
+            }}
+          >
+            {output}
+          </pre>
+          <i
+            onClick={() => setOutput("")}
+            className="position-absolute fi fi-sr-cross-circle "
+            style={{
+              color: "var(--danger)",
+              cursor: "pointer",
+              top: ".5rem",
+              right: ".5rem",
+              zIndex: "5",
+            }}
+          />
+        </div>
+      )}
 
       <div className="row row-cols-1 px-3">
         {type === "qz" ? (
@@ -540,7 +571,7 @@ export default function MultipleChoice({ admin, id_lesson, value, setListQuestio
               </div>
             </div>
           ))
-        ) : answer.length > 0 && (admin||testCase)? (
+        ) : testCase||admin > 0 ? (
           <div className="d-flex px-3 align-items-stretch position-relative">
             <div
               className="py-2"
@@ -593,10 +624,15 @@ export default function MultipleChoice({ admin, id_lesson, value, setListQuestio
                 </div>
               ))}
             </div>
-            <div className="flex-fill p-3 d-flex flex-column">
+           {answer[test]===undefined?"":<div className="flex-fill p-3 d-flex flex-column">
               <div className="d-flex justify-content-between align-items-end">
-                <span><i className="fi fi-rr-cube mr-2" /> Input:</span> 
-                {admin?'':<i onClick={()=>setTestCase(false)} className="fi fi-rr-cross-circle fs-5" style={{color:'var(--danger)', cursor: 'pointer'}}/>}
+                <span>
+                  <i className="fi fi-rr-cube mr-2" /> Input:
+                </span>
+                {admin?"":
+                <span onClick={()=>setTestCase(false)} style={{cursor:'pointer'}}>
+                  <i className="fi fi-sr-cross-circle text-danger"/>
+                </span>}
               </div>
               <input
                 disabled={!admin}
@@ -611,12 +647,12 @@ export default function MultipleChoice({ admin, id_lesson, value, setListQuestio
                 placeholder="Enter input TestCase"
               />
               <div>
-                <i className="fi fi-sr-cube mr-2" /> Output:{" "}
+                <i className="fi fi-sr-cube mr-2" /> Output:
               </div>
               <div className="flex-fill mt-2 output mt-2">
                 {answer[test].output ?? ""}
               </div>
-            </div>
+            </div>}
           </div>
         ) : (
           ""

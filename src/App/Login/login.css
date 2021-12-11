@@ -1,0 +1,19 @@
+.btn-login{
+    background: linear-gradient(45deg, rgb(231, 31, 205), rgb(13, 233, 233));
+    border: none;
+    border-radius: 10rem;
+    color: #fff;
+    cursor: pointer;
+}
+.btn-login:hover{
+    opacity: .8;
+}
+.btn-a{
+    background: none;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 0;
+    margin: 0;
+    font-size: 1rem;
+}

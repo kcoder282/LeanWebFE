@@ -2,7 +2,7 @@ import "./ImgView.css";
 import { useState } from 'react';
 import { useRef } from 'react';
 import { useEffect } from 'react';
-import img from "../../Icon/svg/fi-rr-picture.svg"
+
 export default function ImgView({ setListImg, listImg, edit, ratio = '60%' }) {
   const time = useRef();
   const [select, setSelect] = useState(0);
@@ -37,22 +37,13 @@ export default function ImgView({ setListImg, listImg, edit, ratio = '60%' }) {
     <div className="imgViewData">
       <div className="view position-relative"
         style={{ transform: `translateX(-${select * 100}%)` }}>
-
-        {listImg.length>0?listImg.map((e,i)=>
+        {listImg.map((e,i)=>
             <div key={i} style={{ backgroundImage: 'url('+e+')', 
             top: 0, left: (i*100)+"%", paddingTop:ratio }}
               className="imgitem">
                 {edit?<i onClick={()=>DeleteImg(i)} className="fi fi-sr-cross-circle"/>:''}
             </div>
-        ):
-          <div style={{
-          top: 0, left: 0, paddingTop:ratio }}
-            className="imgitem img-tmp">
-              <img style={{position:"absolute", top:'50%', left:'50%', height:'25%'}}
-              src={img} alt="" />
-          </div>
-        }
-
+        )}
       </div>
       {listImg.length>1?
       <>

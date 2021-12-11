@@ -1,11 +1,10 @@
 import axios from "axios";
-import React from "react";
+import React, { useRef } from "react";
 import { useEffect } from "react";
-import { host } from "../../Static";
+import { host, imgurl } from "../../Static";
 import { useState } from "react";
 import Load from "../../Error/Load";
 import { Link } from "react-router-dom";
-import icon from "../../Icon/svg/fi-rr-user.svg";
 import { toast } from "react-toastify";
 import './index.css'
 
@@ -14,10 +13,15 @@ export default function BlogList({user}) {
   const [list, setList] = useState([]);
   const [pagi, setPagi] = useState([]);
   const [action, setAction] = useState("");
+  const [load, setLoad] = useState(false);
+  const [search_text, setSearch_text] = useState("");
+  const search = useRef();
+  const [listSearch, setListSearch] = useState([]);
 
   useEffect(() => {
     setIsLoad(true);
-    const {tool, id} = Object.fromEntries(new URLSearchParams(window.location.search));
+    const {tool, id, name} = Object.fromEntries(new URLSearchParams(window.location.search));
+
     setAction(tool);
     if (tool === undefined)
       axios
@@ -30,7 +34,8 @@ export default function BlogList({user}) {
           toast.error("" + err);
         })
         .finally(() => setIsLoad(false));
-    else {
+    else
+    {
       axios
         .get(host + "blogs?user_search=" + id)
         .then((result) => {
@@ -41,6 +46,10 @@ export default function BlogList({user}) {
           toast.error("" + err);
         })
         .finally(() => setIsLoad(false));
+    }
+    if(tool==="search")
+    {
+      searchName(name);
     }
   }, []);
 
@@ -57,6 +66,29 @@ export default function BlogList({user}) {
       })
       .finally(() => setIsLoad(false));
   }
+  const searchName = (name)=>{
+    if(name.trim()!=="")
+    {
+      setLoad(true);
+      try {
+        clearTimeout(search.current);
+        search.current = "load";
+      } catch (error) {}
+
+      search.current = setTimeout(() => {
+        axios
+        .get(host + "blogs_search?search=" + name.toLowerCase())
+        .then((result) => {
+          if(result.data.length===0)
+            setListSearch([{id:-1,name:'Không tìm thấy kết quả nào'}])
+          else
+            setListSearch(result.data);
+        })
+        .finally(() => setLoad(false));
+        setSearch_text(name);
+      }, 1000);
+    }else setListSearch([]);
+  }
 
   return (
     <div style={{ overflowX: "hidden" }}>
@@ -64,10 +96,41 @@ export default function BlogList({user}) {
         <div className="container mt-3">
           <div className="row justify-content-center">
             <div className="col col-sm-11 col-md-10 col-lg-9 pb-4">
-                <h2 className="text-uppercase text-primary mt-2 mb-4 pb-2 px-3 animate__animated animate__fadeInUp animate__faster"
-                  style={{ borderBottom: "2px solid var(--primary)" }}>
-                  <i className="fi fi-rr-feather mr-2" />
-                  {action === undefined ? "Blogs của bạn" : "Blog của tác giả "}
+                <h2 className="position-relative row text-uppercase text-primary mt-2 mb-4 pb-2 animate__animated animate__fadeInUp animate__faster"
+                  style={{ borderBottom: "2px solid var(--primary)", zIndex:'1000' }}>
+                    <div className="col-12 col-sm-7 col-md-8"><i className="fi fi-rr-feather mr-2" />
+                    {action === undefined ? "Blogs của bạn" : "Blog của tác giả "}</div>
+                    <div className="col-12 col-sm-5 col-md-4 position-relative d-flex align-items-center">
+                      <input onChange={(e)=>searchName(e.currentTarget.value)} type="text"
+                      defaultValue={Object.fromEntries(new URLSearchParams(window.location.search)).name}
+                      className="input_search w-100 form-control rounded-pill" style={{paddingLeft:'2rem'}} placeholder="Tìm Tên bài Blog..." />
+                      <span className="position-absolute fs-6" style={{left:'1.5rem'}}>
+                        {load?
+                        <span className="load">
+                          <i className="fi fi-rr-spinner"/>
+                        </span>:
+                        <i className="fi fi-rr-search"/>}
+                      </span>
+                      {listSearch.length>0?<span onClick={()=>{document.querySelector(".input_search").value = "";setListSearch([])}} className="fs-6 position-absolute fi fi-sr-cross-circle text-danger" style={{right:'1.5rem'}}/>:''}
+                      {listSearch.length===0?"":
+                      <div className="position-absolute w-100 bg-white p-2 m-1 rounded shadow" style={{zIndex:'10000',fontSize:'.8rem', top:'100%', left:'0', color:'#000', textTransform:'none'}}>
+                      {listSearch.map((e,i)=>e.id===-1?
+                        <div key={i} onClick={()=>{document.querySelector(".input_search").value = "";setListSearch([])}}>
+                          <div className="item w-100 p-2 text-center" style={{borderRadius:'.25rem', cursor:'pointer'}}>
+                            {e.name}
+                          </div>
+                        </div>:
+                        <div key={i} className="d-block item p-1" style={{borderRadius:'.5rem'}}>
+                          <Link to={`/blogs/${(e.name + "").replaceAll(/ |\?/gm, "-")}/${e.id}`}
+                          className="w-100 ">
+                            <div className="mx-2" dangerouslySetInnerHTML={{__html: e.name.replaceAll(new RegExp(search_text,"ig"),"<b class='hl'>"+search_text+"</b>")}}></div>
+                            <div className="mx-2 mt-1" style={{fontWeight:'100', fontSize:'.9em'}}
+                            dangerouslySetInnerHTML={{__html: e.user_name.replaceAll(new RegExp(search_text,"ig"),"<b class='hl'>"+search_text+"</b>")}}/>
+                          </Link>
+                        </div>
+                      )}
+                      </div>}
+                    </div>
                 </h2>
                 {isLoad ? (
                   <Load mini={true} />
@@ -78,7 +141,7 @@ export default function BlogList({user}) {
                     key={i}
                     to={ "/blogs/"+(e.name + "").replaceAll(/ |\?/gm, "-") +"/"+e.id}
                     title={e.name}
-                    className="blog-item shadow mb-2 bg-white px-3 py-3 d-block animate__animated animate__fadeInUp animate__faster"
+                    className="position-relative blog-item shadow mb-2 bg-white px-3 py-3 d-block animate__animated animate__fadeInUp animate__faster"
                     style={{ animationDelay: `${i * 200}ms` }}>
                         <div className="d-flex align-items-center mb-2">
                           <img
@@ -87,7 +150,7 @@ export default function BlogList({user}) {
                               height: "1.2rem",
                               borderRadius: "50%",
                             }}
-                            src={e.user.avata ?? icon}
+                            src={imgurl(e.user.avata)}
                             alt=""
                           />
                           <span className="mx-2" style={{ fontSize: ".8rem" }}>
@@ -168,13 +231,14 @@ export default function BlogList({user}) {
           </div>
         </div>
       </div>
+      {user.id===undefined?"":
       <Link to="/blogs/action/add" className="btn-admin d-flex align-items-center show-btn-admin"
         style={{ background: "#0000" }}>
         <div className="rounded-pill d-flex align-items-center justify-content-center btn-create"
         style={{ width: "3rem", height: "3rem", zIndex: 10 }}>
             <i className="fi fi-sr-plus pt-1" />
         </div>
-       </Link>
+       </Link>}
     </div>
   );
 }
