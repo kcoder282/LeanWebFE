@@ -10,6 +10,8 @@ import './cube.css'
 export default function Home({user}) {
     const [load, setLoad] = useState(false);
     const [data, setData] = useState({});
+    const [send, setSend] = useState(false);
+
     useEffect(() => {
         axios.get(host+"home")
         .then((result) => {
@@ -39,6 +41,27 @@ export default function Home({user}) {
           })
           .finally(() => setLoad(false));
 
+    }
+    const SendData = ()=>
+    {
+       let name = document.getElementById("name-email").value;
+       let email = document.getElementById("email-email").value;
+       let content = document.getElementById("content-email").innerText;
+
+       if(name === "")
+       toast.error("Ban chưa nhập tên");
+       else if(email=== "")
+       toast.error("Ban chưa nhập địa chỉ email");
+       else if(content==="")
+       toast.error("Ban chưa nhập nội dung");
+       else
+       { setSend(true);
+        axios.post(host + "sendgmail", {
+          name: name,
+          email: email,
+          content: content,
+        }).success(()=>toast.success("Gửi Thành Công"))
+        .finally(()=>setSend(false));document.getElementById("content-email").innerText=""}
     }
     return data.content===undefined?
     <Load/>:(
@@ -170,13 +193,13 @@ export default function Home({user}) {
         <h3 id="content1" className="mx-5 py-2 px-5 text-center" contentEditable={user.type===1}
         dangerouslySetInnerHTML={{__html: data.content.content1}}></h3>
         <div className='mx-sm-5 form-control'>
-            <input type="text" className='form-control w-100 my-2' name="" id="" placeholder='Tên bạn là gì?'/>
-            <input type="email" className='form-control w-100' name="" id="" placeholder='Gmail của bạn....' />
+            <input type="text" className='form-control w-100 my-2' name="" id="name-email" placeholder='Tên bạn là gì?'/>
+            <input type="email" className='form-control w-100' name="" id="email-email" placeholder='Gmail của bạn....' />
             <div className='mx-3 mt-2'>Nội dung câu hỏi?</div>
-            <div style={{minHeight:'5rem'}} className="form-control" contentEditable></div>
+            <div id="content-email" style={{minHeight:'5rem'}} className="form-control" contentEditable></div>
             <div className="text-right">
-                <div className="btn btn-primary mt-3">
-                    <i className="fi fi-rr-paper-plane"></i> Gửi
+                <div onClick={SendData} className="btn btn-primary mt-3">
+                    {send? <span className="load"><i className="fi fi-rr-spinner"></i></span>: <i className="fi fi-rr-paper-plane"></i> } Gửi
                 </div>
             </div>
         </div>

@@ -17,6 +17,7 @@ import { setKey, key, host } from "../Static";
 import axios from "axios";
 import Regis from "./Login/Regis";
 import Home from "./Component/Home";
+import Code from "./Code/Code";
 
 function App() {
   const [user, setUser] = useState({});
@@ -58,6 +59,7 @@ function App() {
             <Route path="/login" element={<Login user={user} setLogin={setUserAndKey}/>}/>
             <Route path="/users" element={<User id_user={user.id}/>}/>
             <Route path="/regis" element={<Regis setUser={setUser}/>}/>
+            <Route path="/codes" element={<Code user={user}/>}/>
             <Route path=":all" element={<Error404 />}/>
           </Content>}
       </div>

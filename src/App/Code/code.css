@@ -1,0 +1,12 @@
+.data-item{
+    background: #fff;
+    border-radius: .25rem;
+    padding: .25rem .5rem;
+    cursor: pointer;
+}
+.data-item:hover{
+    outline: 1px solid #007bff;
+}
+.data-item.active{
+    outline: 3px solid #007bff;
+}

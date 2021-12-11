@@ -52,7 +52,7 @@ export default function Login({user, setLogin}) {
             else
             {
                 setLogin(result.data);
-                navi("/");
+                navi(-1);
             }
         }).catch((err) => {
             setError(""+err);
