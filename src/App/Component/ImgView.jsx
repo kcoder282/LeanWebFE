@@ -29,7 +29,6 @@ export default function ImgView({ setListImg, listImg, edit, ratio = '60%' }) {
     const DeleteImg = (index) =>{
         let list = [];
         listImg.forEach((e,i)=>{if(i!==index)list.push(e)});
-        console.log(list);
         setListImg(list);
     }
 

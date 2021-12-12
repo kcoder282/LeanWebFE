@@ -15,7 +15,6 @@ export default function Home({user}) {
     useEffect(() => {
         axios.get(host+"home")
         .then((result) => {
-            console.log(result.data);
             setData(result.data);
         }).catch((err) => {
             toast.error(err+"");

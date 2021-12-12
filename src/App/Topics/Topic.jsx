@@ -90,7 +90,6 @@ export default function Topic({user, courses, select_course='*', show = false}) 
             clearData();
             topics.unshift(result.data);
             setTopics([...topics])
-            console.log(result.data);
             toast.success("Thêm topic thành công");
         }).finally(()=>setLoadSend(false));
     }

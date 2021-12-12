@@ -1,5 +1,5 @@
 import icon from './Icon/svg/fi-rr-user.svg';
-export const host = "http://192.168.1.10:8000/api/";
+export const host = "http://tranthanhkhan2503.atwebpages.com/public/api/";
 export const imgurl = (name)=>{
   if(name===null)
   return icon;
@@ -7,7 +7,7 @@ export const imgurl = (name)=>{
   if((name+"").includes("data:"))
   return name
   else
-  return "http://192.168.1.10:8000/storage/"+name;
+  return "http://tranthanhkhan2503.atwebpages.com/public/storage/" + name;
 }
 function setCookie(cname, cvalue, extime) {
   const d = new Date();

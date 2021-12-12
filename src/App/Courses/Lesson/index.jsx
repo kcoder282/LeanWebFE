@@ -79,7 +79,6 @@ export default function Lesson({cmt, setCmt, idCourse, id, admin, nameCoures, se
               .then((result) => {
               setLesson(result.data);
               toast.success("Lưu dữ liệu thành công");
-              console.log(result.data);
               })
               .catch((err) => {
                   toast.error(""+err);

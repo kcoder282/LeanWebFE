@@ -33,7 +33,6 @@ export default function Regis({setUser}) {
     }
     const saveData=()=>{
         setCheck(true);
-        console.log(dataUser);
         if(error===""&&errorP==="")
         {
             if(confirmpass.length>0)

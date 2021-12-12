@@ -17,7 +17,7 @@ export default function Exercise({ admin, id_lesson, id_course }) {
         setListQuestion(result.data);
       })
       .catch((err) => {
-        console.log("" + err);
+        toast.error("" + err);
       });
   }, [id_lesson, id_course]);
 
@@ -35,7 +35,6 @@ export default function Exercise({ admin, id_lesson, id_course }) {
       .then((result) => {
         setListQuestion(result.data);
         setLoadq(false);
-        console.log(result.data);
       })
       .catch((err) => {
         toast.error("" + err);
